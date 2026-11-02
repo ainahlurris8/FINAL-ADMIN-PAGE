@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="PCAP – Pedestrian Contactless Apprehension Program: automated violation monitoring for Barangay Pampang">
+    <meta name="theme-color" content="#8B1E1E">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpath d=%27M18 22Q50 8 82 22L80 56Q74 80 50 94Q26 80 20 56Z%27 fill=%27%238B1E1E%27/%3E%3Cpath d=%27M50 28L68 60H32Z%27 fill=%27%23fff%27/%3E%3C/svg%3E">
+    <script>try { document.documentElement.dataset.theme = localStorage.getItem("pcap-theme") || "light" } catch (e) { }</script>
+    <title>PCAP Admin | Pedestrian Contactless Apprehension Program</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ---------- Base styles ---------- */
+        :root {
+            --c: #8B1E1E;
+            --c2: #6f1616;
+            --bg: #f3f1f1;
+            --card: #fff;
+            --tx: #1d1d1f;
+            --mu: #6b6b70;
+            --bd: #e2dede;
+            --ok: #1f7a3d;
+            --wa: #c27a00;
+            --bl: #1e3a6e;
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #1a1717;
+            --card: #252121;
+            --tx: #f1ecec;
+            --mu: #a69f9f;
+            --bd: #3a3333;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--tx);
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        header {
+            background: var(--c);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        header b {
+            font-size: 15px;
+        }
+
+        header span {
+            font-size: 11px;
+            opacity: .8;
+            display: block;
+        }
+
+        .hr {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .lo {
+            background: #fff;
+            color: var(--c);
+            border: 0;
+            border-radius: 4px;
+            padding: 5px 14px;
+            font-weight: 600;
+        }
+
+        .shell {
+            display: flex;
+            min-height: calc(100vh - 54px);
+        }
+
+        nav {
+            width: 210px;
+            background: var(--card);
+            border-right: 1px solid var(--bd);
+            padding: 12px 0;
+            flex: none;
+        }
+
+        nav a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--tx);
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        nav a:hover {
+            background: var(--bg);
+        }
+
+        nav a.on {
+            background: var(--c);
+            color: #fff;
+            border-left-color: #000;
+        }
+
+        nav small {
+            display: block;
+            padding: 14px 20px 4px;
+            color: var(--mu);
+            font-size: 11px;
+        }
+
+        main {
+            flex: 1;
+            padding: 22px 26px;
+            min-width: 0;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0 0 2px;
+            color: var(--c);
+        }
+
+        .sub {
+            color: var(--mu);
+            margin: 0 0 16px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .g4 {
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        }
+
+        .g2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .stat {
+            border-left: 4px solid var(--c);
+        }
+
+        .stat b {
+            font-size: 28px;
+            display: block;
+        }
+
+        .stat span {
+            color: var(--mu);
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--c);
+            color: #fff;
+            text-align: left;
+            padding: 9px 10px;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 9px 10px;
+            border-bottom: 1px solid var(--bd);
+            font-size: 13px;
+        }
+
+        tbody tr:hover {
+            background: var(--bg);
+        }
+
+        .tw {
+            overflow-x: auto;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .Approved,
+        .Settled,
+        .Success {
+            background: var(--ok);
+        }
+
+        .Rejected,
+        .Failed {
+            background: var(--c);
+        }
+
+        .Review,
+        .Pending {
+            background: var(--wa);
+        }
+
+        .Unpaid {
+            background: #777;
+        }
+
+        .Verification {
+            background: var(--bl);
+        }
+
+        .lk {
+            color: var(--c);
+            background: none;
+            border: 0;
+            font-weight: 600;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0 0 12px;
+        }
+
+        .tab {
+            border: 1px solid var(--bd);
+            background: var(--card);
+            color: var(--tx);
+            border-radius: 99px;
+            padding: 5px 14px;
+        }
+
+        .tab.on {
+            background: var(--c);
+            color: #fff;
+            border-color: var(--c);
+        }
+
+        .bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        input,
+        select,
+        textarea {
+            font: inherit;
+            padding: 8px 10px;
+            border: 1px solid var(--bd);
+            border-radius: 6px;
+            background: var(--card);
+            color: var(--tx);
+            width: 100%;
+        }
+
+        .bar input {
+            flex: 1;
+            min-width: 200px;
+            width: auto;
+        }
+
+        .bar select {
+            width: auto;
+        }
+
+        .btn {
+            background: var(--c);
+            color: #fff;
+            border: 0;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: var(--c2);
+        }
+
+        .btn.o {
+            background: none;
+            color: var(--c);
+            border: 1px solid var(--c);
+        }
+
+        .btn.g {
+            background: var(--ok);
+        }
+
+        .btn.b {
+            background: var(--bl);
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .kv {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px 18px;
+            margin: 8px 0 4px;
+        }
+
+        .kv label {
+            display: block;
+            color: var(--mu);
+            font-size: 11px;
+        }
+
+        .kv div {
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 13px;
+            color: var(--c);
+            border-bottom: 2px solid var(--c);
+            padding-bottom: 4px;
+            margin: 18px 0 8px;
+        }
+
+        .ev {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .img {
+            width: 230px;
+            height: 130px;
+            background: #2b2b2b;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img i {
+            position: absolute;
+            border: 2px solid #3ddc84;
+            left: 30%;
+            top: 35%;
+            width: 40%;
+            height: 35%;
+        }
+
+        .img em {
+            position: absolute;
+            left: 30%;
+            top: 28%;
+            font: 10px monospace;
+            color: #3ddc84;
+            font-style: normal;
+        }
+
+        .back {
+            color: var(--c);
+            cursor: pointer;
+            background: none;
+            border: 0;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .ov {
+            position: fixed;
+            inset: 0;
+            background: #0008;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            padding: 16px;
+        }
+
+        .md {
+            background: var(--card);
+            border-radius: 8px;
+            width: min(480px, 100%);
+            max-height: 90vh;
+            overflow: auto;
+            border-top: 5px solid var(--c);
+            padding: 18px;
+            animation: pop .15s;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(.96);
+                opacity: 0;
+            }
+        }
+
+        .md h2 {
+            margin: 0 0 10px;
+            font-size: 16px;
+        }
+
+        .md label {
+            display: block;
+            margin: 10px 0 3px;
+            font-size: 12px;
+            color: var(--mu);
+        }
+
+        .err {
+            color: var(--c);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .banner {
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .banner.s {
+            background: #dff3e5;
+            color: #14502a;
+        }
+
+        .banner.f {
+            background: #f8dcdc;
+            color: var(--c);
+        }
+
+        .cams {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cam {
+            background: #222;
+            color: #fff;
+            padding: 7px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .cam.on {
+            border-color: var(--c);
+            background: var(--c);
+        }
+
+        .feed {
+            background: #111;
+            height: 320px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box {
+            position: absolute;
+            border: 2px solid #3ddc84;
+            color: #3ddc84;
+            font: 10px monospace;
+            transition: all 1.2s linear;
+        }
+
+        .road {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 60%;
+            height: 2px;
+            background: #555;
+        }
+
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            height: 140px;
+        }
+
+        .chart div {
+            flex: 1;
+            background: var(--c);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            min-height: 4px;
+        }
+
+        .chart span {
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: var(--mu);
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #222;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 6px;
+            z-index: 30;
+            display: none;
+        }
+
+        @media(max-width:760px) {
+            nav {
+                display: none;
+            }
+
+            .cams {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* ---------- Polish / visual refinements ---------- */
+        body {
+            font-family: Inter, "Segoe UI", system-ui, sans-serif;
+            background: linear-gradient(180deg, #f7f3f3, #ece6e6) fixed;
+        }
+
+        :root[data-theme="dark"] body {
+            background: #151212;
+        }
+
+        header {
+            background: linear-gradient(100deg, #5e1010, var(--c) 55%, #a32a2a);
+            box-shadow: 0 2px 14px #0004;
+            padding: 12px 24px;
+        }
+
+        header b {
+            font-size: 17px;
+            letter-spacing: .5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header b:before {
+            content: "★";
+            display: grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--c);
+            font-size: 15px;
+        }
+
+        .lo {
+            border-radius: 99px;
+            transition: .15s;
+        }
+
+        .lo:hover {
+            background: #ffe3e3;
+        }
+
+        nav {
+            padding: 16px 12px;
+            background: var(--card);
+            box-shadow: 2px 0 12px #0001;
+        }
+
+        nav a {
+            border-radius: 10px;
+            border-left: 0;
+            margin-bottom: 4px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            transition: .15s;
+        }
+
+        nav a i {
+            font-style: normal;
+            width: 22px;
+            text-align: center;
+            opacity: .75;
+        }
+
+        nav a:hover {
+            background: #8b1e1e14;
+            transform: translateX(2px);
+        }
+
+        nav a.on {
+            background: linear-gradient(100deg, var(--c), #b03434);
+            box-shadow: 0 4px 12px #8b1e1e55;
+        }
+
+        main {
+            padding: 28px 34px;
+            max-width: 1400px;
+        }
+
+        h1 {
+            font-size: 24px;
+            letter-spacing: -.3px;
+        }
+
+        .card {
+            border: 0;
+            border-radius: 14px;
+            box-shadow: 0 2px 4px #0001, 0 8px 24px #0000000d;
+        }
+
+        .stat {
+            border-left: 0;
+            position: relative;
+            overflow: hidden;
+            padding: 18px 18px 18px 74px;
+        }
+
+        .stat:before {
+            content: "";
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--c), #c04545);
+            box-shadow: 0 4px 10px #8b1e1e44;
+        }
+
+        .stat:after {
+            content: attr(data-i);
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .stat b {
+            font-size: 30px;
+            letter-spacing: -1px;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th {
+            background: #f3e9e9;
+            color: var(--c);
+            font-weight: 700;
+            border-bottom: 2px solid var(--c);
+        }
+
+        th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        :root[data-theme="dark"] th {
+            background: #2e2323;
+        }
+
+        tbody tr {
+            transition: .12s;
+        }
+
+        tbody tr:hover {
+            background: #8b1e1e0d;
+        }
+
+        td {
+            padding: 11px 10px;
+        }
+
+        .pill {
+            padding: 3px 11px;
+            box-shadow: 0 1px 3px #0003;
+        }
+
+        .btn {
+            border-radius: 10px;
+            box-shadow: 0 3px 8px #8b1e1e33;
+            transition: .15s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn.o {
+            box-shadow: none;
+        }
+
+        .btn.o:hover {
+            background: #8b1e1e12;
+        }
+
+        .tab {
+            transition: .15s;
+        }
+
+        .tab:hover {
+            border-color: var(--c);
+        }
+
+        .tab.on {
+            box-shadow: 0 3px 8px #8b1e1e44;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #8b1e1e55;
+            border-color: var(--c);
+        }
+
+        .md {
+            border-radius: 16px;
+            box-shadow: 0 20px 60px #0006;
+        }
+
+        .ov {
+            backdrop-filter: blur(3px);
+        }
+
+        h3 {
+            border: 0;
+            border-left: 4px solid var(--c);
+            padding: 2px 0 2px 10px;
+            background: linear-gradient(90deg, #8b1e1e10, transparent);
+        }
+
+        .feed {
+            background: radial-gradient(circle at 50% 120%, #2a2a2a, #0a0a0a);
+            box-shadow: inset 0 0 60px #000;
+        }
+
+        .feed:before {
+            content: "● LIVE";
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            color: #ff5555;
+            font: 700 11px monospace;
+            z-index: 2;
+        }
+
+        .cam {
+            border-radius: 10px;
+        }
+
+        .chart div {
+            background: linear-gradient(180deg, #c04545, var(--c));
+        }
+
+        .donut {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex: none;
+        }
+
+        .donut>div {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: var(--card);
+            display: grid;
+            place-items: center;
+            text-align: center;
+            font-weight: 700;
+            font-size: 22px;
+            line-height: 1.1;
+        }
+
+        .donut small {
+            display: block;
+            font-size: 10px;
+            font-weight: 400;
+            color: var(--mu);
+        }
+
+        .hb {
+            margin: 10px 0;
+        }
+
+        .hb div {
+            height: 10px;
+            background: var(--bd);
+            border-radius: 9px;
+            overflow: hidden;
+        }
+
+        .hb i {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--c), #d36060);
+            border-radius: 9px;
+        }
+
+        .hb p {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 3px;
+            font-size: 12px;
+        }
+
+        .lg {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .lg u {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        @media print {
+
+            header,
+            nav,
+            .noprint {
+                display: none;
+            }
+
+            main {
+                padding: 0;
+            }
+        }
+
+        header b:before {
+            display: none;
+        }
+
+        header svg {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 2px 5px #0006);
+        }
+
+        .bell {
+            position: relative;
+            background: #ffffff26;
+            border: 0;
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 16px;
+        }
+
+        .bell:hover {
+            background: #ffffff40;
+        }
+
+        .bell em {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #fff;
+            color: var(--c);
+            font: 700 10px sans-serif;
+            min-width: 17px;
+            height: 17px;
+            border-radius: 9px;
+            display: none;
+            place-items: center;
+            font-style: normal;
+        }
+
+        #np {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            z-index: 25;
+        }
+
+        .npn {
+            width: 350px;
+            max-width: 92vw;
+            background: var(--card);
+            color: var(--tx);
+            border-radius: 14px;
+            box-shadow: 0 12px 40px #0005;
+            padding: 14px;
+            animation: pop .15s;
+        }
+
+        .ni {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .ni:hover {
+            background: var(--bg);
+        }
+
+        .ni.un {
+            border-left: 3px solid var(--c);
+            background: #8b1e1e12;
+            font-weight: 600;
+        }
+
+        .ni small {
+            color: var(--mu);
+            white-space: nowrap;
+            font-weight: 400;
+        }
+
+        .att {
+            border: 1px solid var(--bd);
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: left;
+            color: var(--tx);
+            transition: .15s;
+        }
+
+        .att b {
+            display: block;
+            font-size: 26px;
+            color: var(--c);
+        }
+
+        .att:hover {
+            border-color: var(--c);
+            transform: translateY(-2px);
+        }
+
+        /* System name under the PCAP logo */
+        header .sysname {
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 1;
+        }
+
+        /* ---------- Compact layout (less white space) ---------- */
+        body {
+            font-size: 13px;
+        }
+
+        header {
+            padding: 8px 16px;
+        }
+
+        nav {
+            width: 190px;
+            padding: 10px 8px;
+        }
+
+        nav a {
+            padding: 8px 12px;
+            margin-bottom: 2px;
+        }
+
+        main {
+            padding: 14px 18px;
+            max-width: none;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .sub {
+            margin: 0 0 10px;
+        }
+
+        .card {
+            padding: 12px 14px;
+            margin-bottom: 10px;
+        }
+
+        .grid {
+            gap: 10px;
+        }
+
+        .stat {
+            padding: 12px 12px 12px 66px;
+        }
+
+        .stat b {
+            font-size: 26px;
+        }
+
+        th {
+            padding: 8px 10px;
+        }
+
+        td {
+            padding: 7px 10px;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #8b1e1e08;
+        }
+
+        h3 {
+            margin: 12px 0 6px;
+        }
+
+        .top {
+            margin-bottom: 8px;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+        .bar {
+            margin-bottom: 8px;
+        }
+
+        .tabs {
+            gap: 6px;
+            margin: 0 0 6px;
+        }
+
+        .tab {
+            padding: 3px 12px;
+            font-size: 12px;
+        }
+
+        .tabrow {
+            display: flex;
+            gap: 10px;
+            align-items: baseline;
+        }
+
+        .tabrow>b {
+            font-size: 12px;
+            color: var(--mu);
+            min-width: 104px;
+        }
+
+        .feed {
+            height: 380px;
+        }
+
+        /* detail pages: bordered info grid like the design */
+        .kv {
+            gap: 1px;
+            background: var(--bd);
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 6px 0;
+        }
+
+        .kv>div {
+            background: var(--card);
+            padding: 7px 12px;
+        }
+
+        /* ---------- Fonts, header and login ---------- */
+        body {
+            font-family: Inter, "Segoe UI", system-ui, sans-serif;
+        }
+
+        h1,
+        h3,
+        th,
+        .btn,
+        .tab,
+        nav a,
+        .stat b,
+        .att b,
+        .md h2,
+        .lcard h2,
+        .brand b {
+            font-family: Poppins, Inter, "Segoe UI", sans-serif;
+        }
+
+        h1 {
+            font-weight: 700;
+            letter-spacing: -.2px;
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        header {
+            padding: 8px 22px;
+        }
+
+        .shell {
+            min-height: calc(100vh - 78px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand svg {
+            width: 56px;
+            height: 56px;
+            flex: none;
+        }
+
+        header .brand b {
+            display: block;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: .3px;
+        }
+
+        .pg {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--mu);
+            margin: 8px 0;
+        }
+
+        .pg button {
+            min-width: 28px;
+            border: 1px solid var(--bd);
+            background: var(--card);
+            color: var(--tx);
+            border-radius: 6px;
+            padding: 3px 8px;
+            margin-left: 4px;
+        }
+
+        .pg button.on {
+            background: var(--c);
+            color: #fff;
+            border-color: var(--c);
+        }
+
+        .pg button:disabled {
+            opacity: .4;
+            cursor: default;
+        }
+
+        body.out header,
+        body.out .shell,
+        body.out #toast {
+            display: none !important;
+        }
+
+        #login {
+            display: none;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #5e1010, #8B1E1E 60%, #a32a2a);
+        }
+
+        body.out #login {
+            display: flex;
+        }
+
+        .lcard {
+            width: min(400px, 100%);
+            background: var(--card);
+            border-radius: 16px;
+            border-top: 6px solid var(--c);
+            padding: 26px;
+            text-align: center;
+            box-shadow: 0 20px 60px #0006;
+        }
+
+        .lcard svg {
+            width: 88px;
+            height: 88px;
+        }
+
+        .lcard h2 {
+            font-size: 15px;
+            line-height: 1.3;
+            color: var(--c);
+            margin: 10px 0 2px;
+            letter-spacing: .4px;
+        }
+
+        .lcard p {
+            margin: 0 0 8px;
+            color: var(--mu);
+            font-size: 12px;
+        }
+
+        .lcard label {
+            display: block;
+            text-align: left;
+            font-size: 12px;
+            color: var(--mu);
+            margin: 10px 0 3px;
+        }
+
+        .lcard .btn {
+            width: 100%;
+            margin-top: 14px;
+            padding: 10px;
+        }
+
+        .lcard .err {
+            text-align: left;
+        }
+
+        .lcard .hint {
+            margin: 14px 0 0;
+        }
+
+        @media (max-width: 760px) {
+            .shell {
+                flex-direction: column;
+            }
+
+            nav {
+                display: flex;
+                width: auto;
+                overflow-x: auto;
+                padding: 6px;
+                border-right: 0;
+            }
+
+            nav a {
+                white-space: nowrap;
+            }
+
+            .brand svg {
+                width: 42px;
+                height: 42px;
+            }
+
+            header .brand b {
+                font-size: 12px;
+            }
+        }
+
+        /* ---------- v3: dark-mode contrast, type scale, accessibility ---------- */
+        :root {
+            color-scheme: light;
+            --ac: var(--c);
+            --wa: #a86500;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        :root[data-theme="dark"] {
+            --ac: #ff9c9c;
+            --bl: #3b5fae;
+            --ok: #23864a;
+        }
+
+        :root[data-theme="dark"] .card {
+            border: 1px solid var(--bd);
+            box-shadow: 0 6px 20px #0005;
+        }
+
+        :root[data-theme="dark"] .banner.s {
+            background: #16311f;
+            color: #8fe0aa;
+        }
+
+        :root[data-theme="dark"] .banner.f {
+            background: #3a1b1b;
+            color: #ffb3b3;
+        }
+
+        :root[data-theme="dark"] .ni.un {
+            background: #ff9c9c1c;
+        }
+
+        :root[data-theme="dark"] tbody tr:nth-child(even) {
+            background: #ffffff06;
+        }
+
+        :root[data-theme="dark"] tbody tr:hover {
+            background: #ffffff0d;
+        }
+
+        :root[data-theme="dark"] .btn.o:hover {
+            background: #ff9c9c1a;
+        }
+
+        :root[data-theme="dark"] .lcard {
+            border-top-color: #b03434;
+        }
+
+        :root[data-theme="dark"] input::placeholder,
+        :root[data-theme="dark"] textarea::placeholder {
+            color: #8a8383;
+        }
+
+        :root[data-theme="dark"] .cam {
+            background: #2e2929;
+        }
+
+        :root[data-theme="dark"] .cam.on {
+            background: var(--c);
+        }
+
+        h1,
+        h3,
+        .lk,
+        .back,
+        .err,
+        .att b,
+        .lcard h2,
+        th,
+        .btn.o {
+            color: var(--ac);
+        }
+
+        .btn.o {
+            border-color: var(--ac);
+        }
+
+        .btn.o:hover {
+            color: var(--ac);
+        }
+
+        h3 {
+            border-left-color: var(--ac);
+        }
+
+        .stat span,
+        .stat b {
+            color: var(--tx);
+        }
+
+        .stat span {
+            color: var(--mu);
+        }
+
+        body {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .sub {
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        nav a {
+            font-size: 14px;
+            padding: 9px 12px;
+        }
+
+        th {
+            font-size: 12.5px;
+            padding: 10px 12px;
+        }
+
+        td {
+            font-size: 13.5px;
+            padding: 9px 12px;
+        }
+
+        h3 {
+            font-size: 14px;
+        }
+
+        .stat span {
+            font-size: 13px;
+        }
+
+        .kv label {
+            font-size: 12px;
+            margin-bottom: 1px;
+        }
+
+        .kv div {
+            font-weight: 500;
+        }
+
+        .kv>div {
+            padding: 8px 12px;
+        }
+
+        .pill {
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 3px 12px;
+        }
+
+        .tab {
+            font-size: 13px;
+            padding: 4px 13px;
+        }
+
+        .tabrow>b {
+            font-size: 13px;
+            min-width: 120px;
+        }
+
+        .pg {
+            font-size: 13px;
+        }
+
+        .md label,
+        .lcard label {
+            font-size: 12.5px;
+        }
+
+        .md h2 {
+            font-size: 18px;
+        }
+
+        .lk {
+            text-decoration: none;
+        }
+
+        .lk:hover {
+            text-decoration: underline;
+        }
+
+        td[colspan] {
+            text-align: center;
+            color: var(--mu);
+            padding: 28px 12px;
+        }
+
+        .chart {
+            margin: 24px 0 26px;
+        }
+
+        .chart .cv {
+            position: absolute;
+            top: -19px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font: 600 12px Inter, sans-serif;
+            font-style: normal;
+        }
+
+        .chart span {
+            font-size: 11px;
+            bottom: -20px;
+        }
+
+        header .hr>span {
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 1;
+            background: #ffffff26;
+            padding: 6px 12px;
+            border-radius: 99px;
+            letter-spacing: .3px;
+        }
+
+        #toast {
+            box-shadow: 0 8px 24px #0005;
+            font-size: 13.5px;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        .cam:focus-visible {
+            outline: 3px solid #f5b5b5;
+            outline-offset: 2px;
+        }
+
+        nav a:focus-visible {
+            outline-offset: -3px;
+        }
+
+        @media (max-width: 900px) {
+            .grid[style*="2fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 560px) {
+            header .hr>span {
+                display: none;
+            }
+
+            main {
+                padding: 12px;
+            }
+
+            .tabrow {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .top {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *:before,
+            *:after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        .tt svg {
+            width: 18px;
+            height: 18px;
+            display: block;
+        }
+
+        header .tt {
+            display: grid;
+            place-items: center;
+        }
+
+        .lcard {
+            position: relative;
+        }
+
+        .lcard .tt {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 50%;
+            background: var(--bd);
+            color: var(--tx);
+            display: grid;
+            place-items: center;
+        }
+
+        .lcard .tt:hover {
+            background: var(--mu);
+            color: var(--card);
+        }
+    </style>
+</head>
+
+<body class="out">
+    <!-- ========== LOGIN ========== -->
+    <div id="login">
+        <div class="lcard">
+            <button class="tt" onclick="togTheme()" type="button"></button>
+            <div id="lgo"></div>
+            <h2>PEDESTRIAN CONTACTLESS<br>APPREHENSION PROGRAM</h2>
+            <p>Barangay Pampang · Admin Login</p>
+            <label>Admin ID</label>
+            <input id="lu" placeholder="AD-2026" autocomplete="username" autofocus>
+            <label>Password</label>
+            <input id="lp" type="password" placeholder="Password" autocomplete="current-password">
+            <div class="err" id="le"></div>
+            <button class="btn" onclick="doLogin()">Login</button>
+            <p class="hint">Demo account: <b>AD-2026</b> / <b>admin123</b></p>
+        </div>
+    </div>
+
+    <!-- ========== HEADER ========== -->
+    <header>
+        <div class="brand" title="Barangay Pampang · Automated Violation Monitoring">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50" fill="#dcdcdc" />
+                <path d="M18 30Q50 16 82 30L80 58Q74 80 50 93Q26 80 20 58Z" fill="#2f5fc4" stroke="#1f3f8f"
+                    stroke-width="3" />
+                <path d="M50 9L69 41H31Z" fill="#e24a3a" stroke="#dcdcdc" stroke-width="3" stroke-linejoin="round" />
+                <rect x="48.5" y="20" width="3" height="11" rx="1.5" fill="#fff" />
+                <circle cx="50" cy="36" r="2.2" fill="#fff" />
+                <path d="M31 62L37 49Q38 46 42 46H58Q62 46 63 49L69 62Z" fill="#f0f0f0" />
+                <path d="M39 55L42 49.5H58L61 55Z" fill="#5b92ea" />
+                <rect x="27" y="58" width="46" height="20" rx="5" fill="#f0f0f0" />
+                <rect x="33" y="72" width="34" height="12" rx="2" fill="#1f3f8f" />
+                <circle cx="35" cy="65" r="3.2" fill="#4a82e0" />
+                <circle cx="65" cy="65" r="3.2" fill="#4a82e0" />
+                <rect x="43" y="64" width="14" height="4" rx="1" fill="#2f5fc4" />
+            </svg>
+            <b>PEDESTRIAN CONTACTLESS<br>APPREHENSION PROGRAM</b>
+        </div>
+
+        <div id="np"></div>
+
+        <div class="hr">
+            <button class="bell tt" onclick="togTheme()" type="button"></button>
+            <button class="bell" onclick="togN(event)" title="Notifications" aria-label="Notifications">🔔<em
+                    id="bc"></em></button>
+            <span>ADMIN: AD-2026</span>
+            <button class="lo" onclick="doLogout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- ========== MAIN LAYOUT ========== -->
+    <div class="shell">
+        <nav id="nav"></nav>
+        <main id="main"></main>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+    <div id="modal"></div>
+
+    <!-- ========== APPLICATION SCRIPT ========== -->
+    <script>
+        // ============================== CORE / DATA ==============================
+        const $ = (s) => document.querySelector(s), peso = (n) => "₱" + Number(n).toLocaleString("en-PH", { minimumFractionDigits: 2 });
+        const types = ["Overspeeding", "Illegal Parking", "Red Light", "Obstruction", "Counterflow"], fines = [500, 1e3, 1500, 1e3, 2e3];
+        const places = ["Brgy. Pampang – Main Road", "Brgy. Pampang – Public Market", "Brgy. Pampang – Barangay Hall", "Brgy. Pampang – Elementary School"];
+        const combo = [["Under Review", "N/A"], ["Under Review", "N/A"], ["Approved", "Unpaid"], ["Approved", "Pending Verification"], ["Approved", "Settled"], ["Rejected", "N/A"], ["Under Review", "N/A"], ["Approved", "Unpaid"], ["Rejected", "N/A"], ["Under Review", "N/A"], ["Approved", "Pending Verification"], ["Approved", "Settled"]];
+        const plates = ["ABC 1234", "DEF 456", "XYZ 789", "GHI 321", "JKL 654", "MNO 987", "PQR 246", "STU 135", "VWX 802", "NBA 515"];
+        const vehs = [["Toyota Fortuner SUV", "Black"], ["Honda Civic", "White"], ["Isuzu D-Max", "Silver"], ["Mitsubishi L300", "Red"], ["Toyota Vios", "Gray"], ["Suzuki Ertiga", "Blue"]];
+        const revs = ["Daniel Cruz", "Aira Mendoza", "Paolo Santos"], orBy = ["Maria Lopez", "Daniel Cruz"], pad2 = (n) => String(n).padStart(2, "0");
+        let V = Array.from({ length: 48 }, (_, i) => {
+            const [s, p] = combo[i % 12], t = i % 5, h = 8 + i * 3 % 10, [vh, vc] = vehs[i % 6];
+            return { id: "PCAP-2026-" + String(5001 + i * 7).padStart(5, "0"), mv: "MV-" + (100900 + i * 13), date: `May ${1 + i * 5 % 28}, 2026 ${h > 12 ? h - 12 : h}:${pad2(i * 11 % 60)} ${h >= 12 ? "PM" : "AM"}`, plate: plates[i % 10], type: types[t], fine: fines[t], loc: places[i % 4], vehicle: vh, color: vc, status: s, pay: p, reviewer: s == "Under Review" ? "Not yet assigned" : revs[i % 3], note: s == "Rejected" ? "Insufficient evidence" : s == "Approved" ? "Clear evidence" : "", or: p == "Pending Verification" || p == "Settled" ? { ref: "OR-2026-" + (60100 + i), date: "May 28, 2026", amt: fines[t], by: orBy[i % 2] } : null };
+        });
+        let C = [{ id: "EC-2026-00041", vid: V[1].id, reason: "Incorrect vehicle identification", exp: "The vehicle shown in the evidence does not match my vehicle.", status: "Pending Review", by: "Juan Dela Cruz", date: "May 25, 2026" }, { id: "EC-2026-00045", vid: V[5].id, reason: "Not the driver", exp: "I sold the vehicle before the date of violation.", status: "Approved", by: "Mario Santos", date: "May 24, 2026" }, { id: "EC-2026-00047", vid: V[8].id, reason: "Invalid plate recognition", exp: "Plate was misread by the camera.", status: "Rejected", by: "Ana Reyes", date: "May 22, 2026" }, { id: "EC-2026-00052", vid: V[6].id, reason: "Emergency situation", exp: "Driver was rushing a patient to the hospital.", status: "Pending Review", by: "Lito Ramos", date: "May 27, 2026" }];
+        C.push(
+            { id: "EC-2026-00058", vid: V[9].id, reason: "Incorrect vehicle identification", exp: "The plate in the photo is similar to mine but the car is a different model.", status: "Pending Review", by: "Rosa Bautista", date: "May 28, 2026" },
+            { id: "EC-2026-00060", vid: V[13].id, reason: "Invalid plate recognition", exp: "The camera misread the last digit of my plate.", status: "Pending Review", by: "Carlo Mercado", date: "May 28, 2026" },
+            { id: "EC-2026-00062", vid: V[17].id, reason: "Emergency situation", exp: "I stopped briefly to help an injured pedestrian.", status: "Rejected", by: "Liza Navarro", date: "May 26, 2026" },
+            { id: "EC-2026-00063", vid: V[20].id, reason: "Not the driver", exp: "My vehicle was borrowed by a relative that day.", status: "Approved", by: "Ben Aquino", date: "May 23, 2026" }
+        );
+        let L = [{ t: "May 28, 2026 10:15 AM", u: "Daniel Cruz", m: "Violations", a: "Approved violation", r: "Success", d: "Violation approved after review" }, { t: "May 27, 2026 2:40 PM", u: "Maria Lopez", m: "Payments", a: "OR reference recorded", r: "Success", d: "Official receipt submitted" }, { t: "May 26, 2026 9:05 AM", u: "Admin", m: "E-Contest", a: "Contest approved", r: "Success", d: "Contest EC-2026-00045 approved" }];
+        L.push(
+            { t: "May 25, 2026 4:20 PM", u: "Aira Mendoza", m: "Violations", a: "Rejected violation", r: "Success", d: "Insufficient evidence" },
+            { t: "May 24, 2026 11:02 AM", u: "Maria Lopez", m: "Payments", a: "Payment verified", r: "Success", d: "Receipt matches payment record" },
+            { t: "May 23, 2026 3:30 PM", u: "Daniel Cruz", m: "Payments", a: "Payment verification failed", r: "Failed", d: "Amount mismatch" },
+            { t: "May 22, 2026 9:45 AM", u: "Admin", m: "E-Contest", a: "Contest rejected", r: "Success", d: "Contest EC-2026-00047 rejected" },
+            { t: "May 21, 2026 8:00 AM", u: "AD-2026", m: "Authentication", a: "Admin logged in", r: "Success", d: "Session started" }
+        );
+        const CAM = [{ on: true }, { on: true }, { on: false }, { on: true }];
+        let N = [{ t: "E-Contest EC-2026-00041 needs review", v: "cd", id: "EC-2026-00041", at: "9:10 AM" }, { t: "New e-contest filed: EC-2026-00052", v: "cd", id: "EC-2026-00052", at: "9:42 AM" }, { t: "Payment awaiting verification: " + V[3].id, v: "vd", id: V[3].id, at: "10:05 AM" }, { t: "Camera 3 is offline", v: "live", at: "10:30 AM" }].map((n) => ({ ...n, r: 0 }));
+        function save() {
+            try {
+                localStorage.setItem("pcap-v2", JSON.stringify({ V, C, L, N, CAM }));
+            } catch (e) {
+            }
+        }
+        function notify(t, v, id) {
+            N.unshift({ t, v, id, r: 0, at: (/* @__PURE__ */ new Date()).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) });
+            bell();
+            save();
+        }
+        function bell() {
+            const c = N.filter((n) => !n.r).length, e = $("#bc");
+            e.textContent = c;
+            e.style.display = c ? "grid" : "none";
+        }
+        function togN(e) {
+            e.stopPropagation();
+            const p = $("#np");
+            if (p.innerHTML) {
+                p.innerHTML = "";
+                return;
+            }
+            p.innerHTML = `<div class="npn"><div class="top"><b>Notifications</b><button class="lk" onclick="readAll()">Mark all read</button></div>${N.slice(0, 8).map((n, i) => `<div class="ni ${n.r ? "" : "un"}" onclick="openN(${i})"><span>${n.t}</span><small>${n.at}</small></div>`).join("") || '<p class="sub">No notifications.</p>'}<div class="row" style="margin-top:6px"><button class="lk" onclick="resetDemo()">Reset demo data</button></div></div>`;
+        }
+        function readAll() {
+            N.forEach((n) => n.r = 1);
+            bell();
+            save();
+            $("#np").innerHTML = "";
+            toast("All notifications marked as read");
+        }
+        function openN(i) {
+            const n = N[i];
+            n.r = 1;
+            $("#np").innerHTML = "";
+            bell();
+            save();
+            if (n.v) go(n.v, n.id);
+        }
+        function resetDemo() {
+            try {
+                localStorage.removeItem("pcap-v2");
+            } catch (e) {
+            }
+            location.reload();
+        }
+        function togCam() {
+            const c = CAM[S.cam];
+            c.on = !c.on;
+            log("Monitoring", "Camera " + (S.cam + 1) + (c.on ? " turned on" : " turned off"), "Success", places[S.cam]);
+            if (!c.on) notify("Camera " + (S.cam + 1) + " was turned off", "live");
+            render();
+        }
+        function simulate() {
+            if (document.body.classList.contains("out")) return;
+            const i = Math.floor(Math.random() * 5), k = V.length, v = { id: "PCAP-2026-" + (9e3 + k), mv: "MV-" + (101500 + k), date: (/* @__PURE__ */ new Date()).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }), plate: "NEW " + (100 + Math.floor(Math.random() * 899)), type: types[i], fine: fines[i], loc: places[Math.floor(Math.random() * 4)], vehicle: "Toyota Vios", color: "Gray", status: "Under Review", pay: "N/A", reviewer: "Not yet assigned", note: "", or: null };
+            V.unshift(v);
+            notify("New " + v.type + " detected: " + v.plate, "vd", v.id);
+            toast("New detection flagged for review");
+            if (S.v == "dash") render();
+            else if (S.v == "viol") rf("tb", violRows);
+        }
+        document.addEventListener("click", (e) => {
+            if (!e.target.closest("#np")) $("#np").innerHTML = "";
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key == "Escape") {
+                modal();
+                $("#np").innerHTML = "";
+            }
+        });
+        let S = { v: "dash", id: null, f: "All", pf: "All", pg: 1, q: "", cam: 0, mod: "All", loc: "" };
+        const user = "AD-2026";
+        function log(m, a, r, d) {
+            setTimeout(save);
+            L.unshift({ t: (/* @__PURE__ */ new Date()).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }), u: user, m, a, r: r || "Success", d });
+        }
+        const cls = (s) => s.replace("Under Review", "Review").replace("Pending Review", "Review").replace("Pending Verification", "Verification").replace("N/A", "");
+        const pill = (s) => s == "N/A" ? '<span style="color:var(--mu)">N/A</span>' : `<span class="pill ${cls(s)}">${s}</span>`;
+        function toast(t) {
+            const e = $("#toast");
+            e.textContent = t;
+            e.style.display = "block";
+            clearTimeout(e._t);
+            e._t = setTimeout(() => e.style.display = "none", 2500);
+        }
+        function go(v, id) {
+            S.v = v;
+            S.id = id || null;
+            S.f = "All";
+            S.pf = "All";
+            S.pg = 1;
+            S.q = "";
+            render();
+        }
+        function modal(h) {
+            $("#modal").innerHTML = h ? `<div class="ov" onclick="if(event.target==this)modal()"><div class="md">${h}</div></div>` : "";
+        }
+        const NAV = [["dash", "Dashboard"], ["live", "Live Monitoring"], ["audit", "Audit Logs"], ["viol", "Violations Record"], ["cont", "E-Contest"], ["rep", "Reports & Analytics"]];
+        const I = { dash: "▦", live: "◉", audit: "☰", viol: "⚑", cont: "✉", rep: "▤" };
+        function render() {
+            const base = S.v == "vd" ? "viol" : S.v == "cd" ? "cont" : S.v;
+            $("#nav").innerHTML = NAV.map(([k, n]) => `<a class="${k == base ? "on" : ""}" tabindex="0" role="link" ${k == base ? 'aria-current="page"' : ""} onkeydown="if(event.key=='Enter')this.click()" onclick="go('${k}')"><i>${I[k]}</i>${n}</a>`).join("");
+            $("#main").innerHTML = { dash, live, audit, viol, vd, cont, cd, rep }[S.v]();
+            if (S.v == "live") startLive();
+            else clearInterval(window._lv);
+            window.scrollTo(0, 0);
+        }
+        // ============================== DASHBOARD ==============================
+        function dash() {
+            const n = (s) => V.filter((v) => v.status == s).length, tot = V.length, cnt = {};
+            types.forEach((t) => cnt[t] = V.filter((v) => v.type == t).length);
+            const mx = Math.max(...Object.values(cnt));
+            return `<h1>PCAP Dashboard</h1><p class="sub">Pedestrian Contactless Apprehension Program · Barangay Pampang overview</p>
+     <div class="grid g4"><div class="card stat" data-i="⚑"><b>${tot.toLocaleString()}</b><span>Total violations</span></div><div class="card stat" data-i="✔"><b>${n("Approved")}</b><span>Approved</span></div><div class="card stat" data-i="◔"><b>${n("Under Review")}</b><span>Pending review</span></div><div class="card stat" data-i="✉"><b>${C.filter((c) => c.status == "Pending Review").length}</b><span>Active e-contests</span></div></div>
+     <div class="card"><h3 style="margin-top:0">Needs your attention</h3><div class="grid g4">${[["Violations to review", n("Under Review"), "viol", "Under Review"], ["Payments to verify", V.filter((v) => v.pay == "Pending Verification").length, "viol", "Pending Verification"], ["Contests to review", C.filter((c) => c.status == "Pending Review").length, "cont", "Pending Review"], ["Cameras offline", CAM.filter((c) => !c.on).length, "live", "All"]].map((x) => `<button class="att" onclick="go('${x[2]}');S.${x[3] == "Pending Verification" ? "pf" : "f"}='${x[3]}';render()"><b>${x[1]}</b>${x[0]}</button>`).join("")}</div></div>
+     <div class="grid g2"><div class="card"><h3 style="margin-top:0">Violations by type</h3><div class="chart">${types.map((t) => `<div style="height:${cnt[t] / mx * 100}%"><em class="cv">${cnt[t]}</em><span>${t.split(" ")[0]}</span></div>`).join("")}</div><br></div>
+     <div class="card"><h3 style="margin-top:0">System status</h3>${["Cameras online: " + CAM.filter((c) => c.on).length + "/4", "Detection engine: Running", "Database: Connected", "Payment sync: OK"].map((s) => `<p style="margin:6px 0">🟢 ${s}</p>`).join("")}</div></div>
+     <div class="card"><div class="top"><h3 style="margin:0;border:0">Recent activity</h3><button class="lk" onclick="go('audit')">View all</button></div><div class="tw"><table><tbody>${L.slice(0, 5).map((l) => `<tr><td>${l.t}</td><td>${l.u}</td><td>${l.a}</td><td>${l.d}</td></tr>`).join("")}</tbody></table></div></div>`;
+        }
+        // ============================== LIVE MONITORING ==============================
+        function live() {
+            const f = V.filter((v) => v.status == "Under Review").slice(0, 4);
+            return `<h1>Live Monitoring</h1><p class="sub">Real-time camera feeds and detections</p>
+     <div class="grid" style="grid-template-columns:2fr 1fr"><div><div class="cams">${[1, 2, 3, 4].map((c, i) => `<div class="cam ${S.cam == i ? "on" : ""}" onclick="S.cam=${i};render()">Camera ${c} ${CAM[i].on ? "🟢" : "🔴"}</div>`).join("")}</div><div class="feed" id="feed"><div class="road"></div>${CAM[S.cam].on ? "" : '<div style="position:absolute;inset:0;display:grid;place-items:center;color:#ff8a8a;font-weight:700">Camera offline</div>'}</div><div class="top" style="margin-top:8px"><span>📍 ${places[S.cam]}</span><button class="btn o" onclick="togCam()">${CAM[S.cam].on ? "Turn off camera" : "Turn on camera"}</button></div></div>
+     <div class="card"><h3 style="margin-top:0">Flagged violations</h3>${f.map((v) => `<p style="margin:0 0 10px"><b>${v.type}</b> · ${v.plate}<br><button class="lk" onclick="go('vd','${v.id}')">Review</button></p>`).join("") || "Nothing flagged"}</div></div>
+     <div class="grid g4" style="margin-top:14px"><div class="card stat" data-i="◉"><b>${V.length * 4}</b><span>Vehicles detected today</span></div><div class="card stat" data-i="⚑"><b>${V.length}</b><span>Violations today</span></div><div class="card stat" data-i="◔"><b>${f.length}</b><span>Flagged for review</span></div><div class="card stat" data-i="▶"><b>${CAM.filter((c) => c.on).length}</b><span>Active cameras</span></div></div>`;
+        }
+        function startLive() {
+            const feed = $("#feed");
+            if (!CAM[S.cam].on) return;
+            const mk = () => {
+                feed.querySelectorAll(".box").forEach((b) => b.remove());
+                for (let i = 0; i < 2 + S.cam % 2; i++) {
+                    const b = document.createElement("div");
+                    b.className = "box";
+                    b.textContent = types[Math.floor(Math.random() * 5)] + " " + (80 + Math.floor(Math.random() * 19)) + "%";
+                    place(b);
+                    feed.appendChild(b);
+                    setTimeout(() => place(b), 50);
+                }
+            };
+            const place = (b) => {
+                b.style.left = Math.random() * 70 + "%";
+                b.style.top = 30 + Math.random() * 40 + "%";
+                b.style.width = 60 + Math.random() * 60 + "px";
+                b.style.height = 40 + Math.random() * 30 + "px";
+            };
+            mk();
+            window._lv = setInterval(() => feed.querySelectorAll(".box").forEach(place), 1300);
+        }
+        // ============================== AUDIT LOGS ==============================
+        function audit() {
+            const rows = L.filter((l) => (S.mod == "All" || l.m == S.mod) && (l.a + l.d + l.u).toLowerCase().includes(S.q.toLowerCase()));
+            return `<h1>Audit Logs</h1><p class="sub">Track important system activities and administrative changes</p>
+     <div class="bar"><input placeholder="Search logs…" value="${S.q}" oninput="S.q=this.value;rf('tb',auditRows)"><select onchange="S.mod=this.value;render()">${["All", "Violations", "Payments", "E-Contest", "Authentication"].map((m) => `<option ${S.mod == m ? "selected" : ""}>${m}</option>`).join("")}</select></div>
+     <div class="card tw"><table><thead><tr><th>Date & Time</th><th>User</th><th>Module</th><th>Action</th><th>Result</th><th></th></tr></thead><tbody id="tb">${auditRows()}</tbody></table></div>`;
+        }
+        function auditRows() {
+            const rows = L.filter((l) => (S.mod == "All" || l.m == S.mod) && (l.a + l.d + l.u).toLowerCase().includes(S.q.toLowerCase()));
+            return rows.map((l) => `<tr><td>${l.t}</td><td>${l.u}</td><td>${l.m}</td><td>${l.a}</td><td>${pill(l.r)}</td><td><button class="lk" onclick="auditView(${L.indexOf(l)})">View</button></td></tr>`).join("") || "<tr><td colspan=6>No logs found</td></tr>";
+        }
+        function rf(id, fn) {
+            const e = document.getElementById(id);
+            if (e) e.innerHTML = fn();
+        }
+        function auditView(i) {
+            const l = L[i];
+            modal(`<h2>Audit log details ${pill(l.r)}</h2><div class="kv"><div><label>Activity</label>${l.a}</div><div><label>Performed by</label>${l.u}</div><div><label>Module</label>${l.m}</div><div><label>Date & time</label>${l.t}</div></div><h3>Details</h3><p>${l.d}</p><div class="row"><button class="btn" onclick="modal()">Close</button></div>`);
+        }
+        // ============================== VIOLATIONS LIST ==============================
+        const ac = (v) => C.some((c) => c.vid == v.id && c.status == "Pending Review"), PER = 10;
+        function violList() {
+            const q = S.q.toLowerCase();
+            return V.filter((v) => (S.f == "All" || (S.f == "Active E-Contest" ? ac(v) : v.status == S.f)) && (S.pf == "All" || v.pay == S.pf) && (!S.loc || v.loc == S.loc) && (v.id + v.plate).toLowerCase().includes(q));
+        }
+        function violPage() {
+            const n = violList().length;
+            S.pg = Math.min(Math.max(1, S.pg || 1), Math.max(1, Math.ceil(n / PER)));
+            return n;
+        }
+        function violCount() {
+            const n = violPage(), pages = Math.max(1, Math.ceil(n / PER)), a = n ? (S.pg - 1) * PER + 1 : 0, b = Math.min(n, S.pg * PER);
+            let btn = `<button ${S.pg < 2 ? "disabled" : ""} onclick="S.pg=${S.pg - 1};render()">‹</button>`;
+            for (let p = 1; p <= pages; p++) btn += `<button class="${p == S.pg ? "on" : ""}" onclick="S.pg=${p};render()">${p}</button>`;
+            return `<span>Showing ${a} to ${b} of ${n} entries</span><span>${btn}<button ${S.pg >= pages ? "disabled" : ""} onclick="S.pg=${S.pg + 1};render()">›</button></span>`;
+        }
+        function viol() {
+            const fs = ["All", "Under Review", "Approved", "Rejected", "Active E-Contest"], ps = ["All", "Unpaid", "Pending Verification", "Settled"];
+            const cf = (f) => f == "All" ? V.length : f == "Active E-Contest" ? V.filter(ac).length : V.filter((v) => v.status == f).length;
+            return `<div class="top"><div><h1>Violations Record</h1><p class="sub" style="margin:0">Review, approve, and track every detected violation</p></div><button class="btn" onclick="exportCSV()">⭳ Export</button></div>
+     <div class="bar"><input placeholder="Search e-ticket no., plate no…" value="${S.q}" oninput="S.q=this.value;S.pg=1;rf('tb',violRows);rf('ft',violCount)"><select onchange="S.loc=this.value;S.pg=1;rf('tb',violRows);rf('ft',violCount)"><option value="">All locations (Pampang)</option>${places.map((p) => `<option ${S.loc == p ? "selected" : ""}>${p}</option>`).join("")}</select></div>
+     <div class="tabrow"><b>Violation Status</b><div class="tabs">${fs.map((f) => `<button class="tab ${S.f == f ? "on" : ""}" onclick="S.f='${f}';S.pg=1;render()">${f} (${cf(f)})</button>`).join("")}</div></div>
+     <div class="tabrow"><b>Payment Status</b><div class="tabs">${ps.map((f) => `<button class="tab ${S.pf == f ? "on" : ""}" onclick="S.pf='${f}';S.pg=1;render()">${f}${f != "All" ? " (" + V.filter((v) => v.pay == f).length + ")" : ""}</button>`).join("")}</div></div>
+     <div class="card tw" style="padding:0"><table><thead><tr><th>E-Ticket No.</th><th>Plate</th><th>Violation</th><th>Location</th><th>Violation Status</th><th>Payment Status</th><th>Action</th></tr></thead><tbody id="tb">${violRows()}</tbody></table></div>
+     <div class="pg" id="ft">${violCount()}</div>`;
+        }
+        function violRows() {
+            violPage();
+            return violList().slice((S.pg - 1) * PER, S.pg * PER).map((v) => `<tr><td>${v.id}</td><td>${v.plate}</td><td>${v.type}</td><td>${v.loc.replace("Brgy. Pampang – ", "")}</td><td>${pill(v.status)}</td><td>${pill(v.pay)}</td><td><button class="lk" onclick="go('vd','${v.id}')">View</button></td></tr>`).join("") || "<tr><td colspan=7>No violations match.</td></tr>";
+        }
+        // ============================== VIOLATION DETAIL ==============================
+        const kv = (a) => `<div class="kv">${a.map(([k, v]) => `<div><label>${k}</label>${v || "—"}</div>`).join("")}</div>`;
+        function vd() {
+            const v = V.find((x) => x.id == S.id), o = v.or;
+            let act = `<button class="btn o" onclick="auditFor('${v.id}')">View audit logs</button>`;
+            if (v.status == "Under Review") act += `<button class="btn o" onclick="rejectM('${v.id}')">Reject</button><button class="btn g" onclick="approveM('${v.id}')">Approve</button>`;
+            if (v.status == "Approved" && v.pay == "Unpaid") act += `<button class="btn b" onclick="orM('${v.id}')">Record OR information</button>`;
+            if (v.pay == "Pending Verification") act += `<button class="btn b" onclick="verM('${v.id}')">Verify payment</button>`;
+            return `<button class="back" onclick="go('viol')">← Back to violation records</button><div class="card"><div class="top"><h1>Violation detail</h1>${pill(v.status)}</div>
+     <h3>Ticket & violation information</h3>${kv([["E-Ticket No.", v.id], ["MV file no.", v.mv], ["Date violation occurred", v.date], ["Fine amount", peso(v.fine)], ["Violation type", v.type], ["Vehicle type", v.vehicle], ["Payment status", pill(v.pay)], ["Plate no.", v.plate], ["Location", v.loc], ["Vehicle color", v.color]])}
+     <h3>Evidence & detection</h3><div class="ev"><div class="img"><em>${v.plate}</em><i></i></div><div><b>Detection:</b> ${v.vehicle} (98%)<br><b>Plate:</b> ${v.plate} (96%)<br><b>Rule triggered:</b> ${v.type}<br><br><button class="btn o" onclick="media('image')">View image</button> <button class="btn o" onclick="media('video')">View video</button></div></div>
+     <h3>Review information</h3>${kv([["Reviewed by", v.reviewer], ["Review decision", v.status], ["Review notes", v.note]])}
+     <h3>OR / settlement information</h3>${o ? kv([["OR reference no.", o.ref], ["Submitted date", o.date], ["Submitted by", o.by], ["Amount paid", peso(o.amt)]]) : '<p style="color:var(--mu)">No OR information submitted.</p>'}
+     ${v.pay == "Settled" ? '<div class="banner s">✔ Payment verified. This violation is settled.</div>' : ""}
+     <div class="row">${act}</div></div>`;
+        }
+        function media(t) {
+            modal(`<h2>Evidence ${t}</h2><div class="img" style="width:100%;height:220px;display:flex;align-items:center;justify-content:center;color:#fff">${t == "video" ? "▶ Video playback (demo)" : "Camera capture (demo)"}</div><div class="row"><button class="btn" onclick="modal()">Close</button></div>`);
+        }
+        function auditFor(id) {
+            S.q = id;
+            S.mod = "All";
+            S.v = "audit";
+            render();
+        }
+        function approveM(id) {
+            modal(`<h2>✔ Confirm / approve violation</h2><p>Approving will mark this violation as <b>Approved</b> and allow the payment process to proceed.</p><label>Approval notes (optional)</label><textarea id="n" rows="3" maxlength="200"></textarea><div class="row"><button class="btn o" onclick="modal()">Back</button><button class="btn g" onclick="doApprove('${id}')">Confirm approval</button></div>`);
+        }
+        function doApprove(id) {
+            const v = V.find((x) => x.id == id);
+            v.status = "Approved";
+            v.pay = "Unpaid";
+            v.reviewer = "Daniel Cruz";
+            v.note = $("#n").value || "Clear evidence";
+            log("Violations", "Approved violation", "Success", id + " approved");
+            modal();
+            toast("Violation approved");
+            render();
+        }
+        function rejectM(id) {
+            modal(`<h2>✖ Reject violation</h2><p>This marks the violation as <b>Rejected</b> and no payment will be required.</p><label>Reason for rejection *</label><select id="r"><option value="">Select reason</option><option>Duplicate record</option><option>Insufficient evidence</option><option>Incorrect plate recognition</option><option>Invalid violation</option><option>Other</option></select><label>Additional notes (optional)</label><textarea id="n" rows="3"></textarea><div class="err" id="e"></div><div class="row"><button class="btn o" onclick="modal()">Back</button><button class="btn" onclick="doReject('${id}')">Confirm rejection</button></div>`);
+        }
+        function doReject(id) {
+            const r = $("#r").value;
+            if (!r) {
+                $("#e").textContent = "Select a reason for rejection.";
+                return;
+            }
+            const v = V.find((x) => x.id == id);
+            v.status = "Rejected";
+            v.pay = "N/A";
+            v.reviewer = "Daniel Cruz";
+            v.note = r + ($("#n").value ? ": " + $("#n").value : "");
+            log("Violations", "Rejected violation", "Success", id + " rejected: " + r);
+            modal();
+            toast("Violation rejected");
+            render();
+        }
+        function orM(id) {
+            const v = V.find((x) => x.id == id);
+            modal(`<h2>Record official receipt</h2><p>${id} · Fine ${peso(v.fine)}</p><label>OR reference no. *</label><input id="a" placeholder="OR-2026-00000"><label>Payment date *</label><input id="b" type="date"><label>Amount paid *</label><input id="c" type="number" step="0.01" value="${v.fine}"><label>Submitted by *</label><input id="d" value="Daniel Cruz"><div class="err" id="e"></div><div class="row"><button class="btn o" onclick="modal()">Back</button><button class="btn b" onclick="doOR('${id}')">Submit OR information</button></div>`);
+        }
+        function doOR(id) {
+            const g = (k) => $("#" + k).value.trim();
+            if (!g("a") || !g("b") || !g("c") || !g("d")) {
+                $("#e").textContent = "Fill in all required fields.";
+                return;
+            }
+            const v = V.find((x) => x.id == id);
+            v.or = { ref: g("a"), date: new Date(g("b")).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }), amt: +g("c"), by: g("d") };
+            v.pay = "Pending Verification";
+            log("Payments", "OR reference recorded", "Success", v.or.ref + " for " + id);
+            modal(`<h2>✔ OR reference recorded</h2><p>The payment is now waiting for verification.</p><div class="row"><button class="btn" onclick="modal();render()">Done</button></div>`);
+            render();
+        }
+        function verM(id) {
+            const v = V.find((x) => x.id == id), o = v.or;
+            modal(`<h2>Verify official statement</h2>${kv([["E-Ticket", id], ["Plate", v.plate], ["Fine amount", peso(v.fine)], ["OR reference", o.ref], ["Payment date", o.date], ["Submitted amount", peso(o.amt)]])}<label>Verifier name *</label><input id="a" value="Daniel Cruz"><div class="err" id="e"></div><div class="row"><button class="btn o" onclick="modal()">Cancel</button><button class="btn g" onclick="doVer('${id}')">Confirm</button></div>`);
+        }
+        function doVer(id) {
+            if (!$("#a").value.trim()) {
+                $("#e").textContent = "Enter the verifier name.";
+                return;
+            }
+            const v = V.find((x) => x.id == id);
+            if (v.or.amt == v.fine) {
+                v.pay = "Settled";
+                log("Payments", "Payment verified", "Success", id + " settled");
+                modal(`<h2>✔ Payment successfully verified</h2><p>The receipt matches the payment record. The violation is now settled.</p><div class="row"><button class="btn" onclick="modal();render()">Done</button></div>`);
+            } else {
+                log("Payments", "Payment verification failed", "Failed", id + ": amount mismatch");
+                v.pay = "Unpaid";
+                v.or = null;
+                modal(`<h2>✖ Payment verification failed</h2><p>The submitted amount does not match the fine. Record the OR information again.</p><div class="row"><button class="btn" onclick="modal();render()">Close</button></div>`);
+            }
+            render();
+        }
+        // ============================== REPORTS & ANALYTICS ==============================
+        function rep() {
+            const n = (x) => V.filter((v) => v.status == x).length, a = n("Approved"), r = n("Rejected"), u = n("Under Review"), t = V.length, rate = a + r ? Math.round(a / (a + r) * 100) : 0;
+            const cs = (x) => C.filter((c) => c.status == x).length, cc = C.length, cr = cc - cs("Pending Review") ? Math.round(cs("Approved") / (cc - cs("Pending Review")) * 100) : 0;
+            const cnt = (x) => V.filter((v) => v.type == x).length, mx = Math.max(...types.map(cnt)), locs = places.map((p) => [p, V.filter((v) => v.loc == p).length]).sort((x, y) => y[1] - x[1]), lm = locs[0][1] || 1;
+            const mo = ["Jan", "Feb", "Mar", "Apr", "May"], ser = [28, 34, 31, 40, t], sm = Math.max(...ser), pts = ser.map((v, i) => [40 + i * 85, 120 - v / sm * 95]);
+            const pa = a / t * 100, pu = u / t * 100;
+            const stats = [["Total violations", t, "⚑"], ["Approval rate", rate + "%", "✔"], ["Contest success rate", cr + "%", "✉"], ["Avg. fine", peso(V.reduce((x, v) => x + v.fine, 0) / t), "▣"]];
+            return `<div class="top"><div><h1>Reports & Analytics</h1><p class="sub">Insights from detections, reviews and e-contests</p></div><div class="row noprint" style="margin:0"><button class="btn o" onclick="exportCSV()">Export CSV</button><button class="btn" onclick="print()">Print report</button></div></div>
+     <div class="grid g4">${stats.map((x) => `<div class="card stat" data-i="${x[2]}"><b>${x[1]}</b><span>${x[0]}</span></div>`).join("")}</div>
+     <div class="grid g2"><div class="card"><h3 style="margin-top:0">Violation trend (monthly)</h3><svg viewBox="0 0 440 150" style="width:100%"><polyline fill="none" stroke="#8B1E1E" stroke-width="3" points="${pts.map((p) => p.join(",")).join(" ")}"/>${pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#8B1E1E"/><text x="${p[0]}" y="${p[1] - 10}" font-size="11" text-anchor="middle" fill="currentColor">${ser[i]}</text><text x="${p[0]}" y="144" font-size="11" text-anchor="middle" fill="#999">${mo[i]}</text>`).join("")}</svg></div>
+     <div class="card"><h3 style="margin-top:0">Review outcome</h3><div class="ev"><div class="donut" style="background:conic-gradient(var(--ok) 0 ${pa}%,var(--wa) ${pa}% ${pa + pu}%,var(--c) ${pa + pu}% 100%)"><div><span>${t}<small>total</small></span></div></div><div><div class="lg"><u style="background:var(--ok)"></u>Approved: ${a}</div><div class="lg"><u style="background:var(--wa)"></u>Under review: ${u}</div><div class="lg"><u style="background:var(--c)"></u>Rejected: ${r}</div></div></div></div></div>
+     <div class="grid g2"><div class="card"><h3 style="margin-top:0">Violations by type</h3>${types.map((x) => `<div class="hb"><p><span>${x}</span><b>${cnt(x)}</b></p><div><i style="width:${cnt(x) / mx * 100}%"></i></div></div>`).join("")}</div>
+     <div class="card"><h3 style="margin-top:0">Hotspots in Barangay Pampang</h3>${locs.map((l) => `<div class="hb"><p><span>${l[0]}</span><b>${l[1]}</b></p><div><i style="width:${l[1] / lm * 100}%"></i></div></div>`).join("")}</div></div>
+     <div class="card"><h3 style="margin-top:0">E-Contest summary</h3>${kv([["Total contests", cc], ["Pending review", cs("Pending Review")], ["Approved", cs("Approved")], ["Rejected", cs("Rejected")]])}</div>
+     <p class="sub">Trend figures for Jan–Apr are sample data. Everything else updates live from your actions.</p>`;
+        }
+        function exportCSV() {
+            const h = "E-Ticket,Plate,Type,Location,Fine,Status\n", b = V.map((v) => [v.id, v.plate, v.type, v.loc, v.fine, v.status].join(",")).join("\n"), a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([h + b], { type: "text/csv" }));
+            a.download = "pcap-violations.csv";
+            a.click();
+            log("Reports", "Exported violations CSV", "Success", V.length + " records");
+            toast("CSV exported");
+        }
+        // ============================== E-CONTEST ==============================
+        function cont() {
+            const fs = ["All", "Pending Review", "Approved", "Rejected"];
+            return `<h1>E-Contest Management</h1><p class="sub">Review appeals filed against violations</p>
+     <div class="tabs">${fs.map((f) => `<button class="tab ${S.f == f ? "on" : ""}" onclick="S.f='${f}';render()">${f}</button>`).join("")}</div>
+     <div class="card tw"><table><thead><tr><th>E-Contest ID</th><th>E-Ticket No.</th><th>Plate No.</th><th>Violation</th><th>Contestant</th><th>Submitted</th><th>Status</th><th></th></tr></thead><tbody>${C.filter((c) => S.f == "All" || c.status == S.f).map((c) => `<tr><td>${c.id}</td><td>${c.vid}</td><td>${(V.find((v) => v.id == c.vid) || {}).plate}</td><td>${(V.find((v) => v.id == c.vid) || {}).type}</td><td>${c.by}</td><td>${c.date}</td><td>${pill(c.status)}</td><td><button class="lk" onclick="go('cd','${c.id}')">View</button></td></tr>`).join("") || "<tr><td colspan=8>No contests.</td></tr>"}</tbody></table></div>`;
+        }
+        function cd() {
+            const c = C.find((x) => x.id == S.id), v = V.find((x) => x.id == c.vid), p = c.status == "Pending Review";
+            return `<button class="back" onclick="go('cont')">← Back to e-contest management</button><div class="card"><div class="top"><h1>E-Contest details ${pill(c.status)}</h1><button class="btn o" onclick="auditFor('${c.id}')">View audit logs</button></div>
+     <h3>A. Contest information</h3>${kv([["E-Contest ID", c.id], ["E-Ticket No.", c.vid], ["Date submitted", c.date], ["Contestant", c.by]])}
+     <h3>B. Original violation</h3>${kv([["Violation ID", v.id], ["Plate", v.plate], ["Type", v.type], ["Location", v.loc], ["Payment status", pill(v.pay)]])}<p><button class="lk" onclick="go('vd','${v.id}')">View original violation</button></p>
+     <h3>C. Contestant's statement</h3>${kv([["Reason", c.reason], ["Explanation", c.exp]])}
+     <h3>D. Evidence & attachments</h3><div class="ev"><div class="img"><i></i></div><div class="img"><em>proof_of_ownership.jpg</em></div></div>
+     <h3>E. Admin review</h3>${kv([["Review decision", p ? "Pending review" : c.status], ["Reviewer notes", c.note || "Awaiting assessment"]])}
+     ${p ? `<div class="row"><button class="btn o" onclick="toast('Modification request sent to contestant')">Request modification</button><button class="btn o" onclick="cRej('${c.id}')">Reject contest</button><button class="btn g" onclick="cApp('${c.id}')">Approve contest</button></div>` : ""}</div>`;
+        }
+        function cApp(id) {
+            modal(`<h2>✔ Confirm contest approval</h2><p>Approving will mark the appeal as approved and cancel the linked violation.</p><label>Decision notes (optional)</label><textarea id="n" rows="3"></textarea><div class="row"><button class="btn o" onclick="modal()">Back</button><button class="btn g" onclick="cDo('${id}',1)">Confirm approval</button></div>`);
+        }
+        function cRej(id) {
+            modal(`<h2>✖ Reject contest</h2><label>Reason for rejection *</label><select id="r"><option value="">Select reason</option><option>Insufficient supporting evidence</option><option>Contest filed late</option><option>Statement not credible</option><option>Other</option></select><label>Additional notes (optional)</label><textarea id="n" rows="3"></textarea><div class="err" id="e"></div><div class="row"><button class="btn o" onclick="modal()">Back</button><button class="btn" onclick="cDo('${id}',0)">Confirm rejection</button></div>`);
+        }
+        function cDo(id, ok) {
+            const c = C.find((x) => x.id == id);
+            let r = "";
+            if (!ok) {
+                r = $("#r").value;
+                if (!r) {
+                    $("#e").textContent = "Select a reason for rejection.";
+                    return;
+                }
+            }
+            c.status = ok ? "Approved" : "Rejected";
+            c.note = ok ? $("#n").value || "Contest approved" : r + ($("#n").value ? ": " + $("#n").value : "");
+            if (ok) {
+                const v = V.find((x) => x.id == c.vid);
+                v.status = "Rejected";
+                v.pay = "N/A";
+                v.note = "Contest approved: violation cancelled";
+            }
+            log("E-Contest", ok ? "Contest approved" : "Contest rejected", "Success", id + (ok ? " approved, violation cancelled" : " rejected: " + r));
+            modal();
+            toast("Contest " + (ok ? "approved" : "rejected"));
+            render();
+        }
+        try {
+            const d = JSON.parse(localStorage.getItem("pcap-v2") || "null");
+            if (d) {
+                V = d.V;
+                C = d.C;
+                L = d.L;
+                N = d.N;
+                (d.CAM || []).forEach((c, i) => CAM[i].on = c.on);
+            }
+        } catch (e) {
+        }
+        bell();
+        render();
+        setInterval(simulate, 45e3);
+
+        // ============================== LOGIN / LOGOUT ==============================
+        try { if (sessionStorage.getItem("pcap-auth") == "1") document.body.classList.remove("out"); } catch (e) { }
+        $("#lgo").innerHTML = $("header svg").outerHTML;
+        function doLogin() {
+            const u = $("#lu").value.trim().toUpperCase(), p = $("#lp").value;
+            if (!u || !p) { $("#le").textContent = "Enter your Admin ID and password."; return; }
+            if (u != "AD-2026" || p != "admin123") { $("#le").textContent = "Incorrect Admin ID or password."; return; }
+            try { sessionStorage.setItem("pcap-auth", "1"); } catch (e) { }
+            $("#le").textContent = ""; $("#lp").value = "";
+            document.body.classList.remove("out");
+            log("Authentication", "Admin logged in", "Success", "Session started");
+            go("dash");
+            toast("Welcome, " + user);
+        }
+        function doLogout() {
+            log("Authentication", "Admin logged out", "Success", "Session ended");
+            save();
+            try { sessionStorage.removeItem("pcap-auth"); } catch (e) { }
+            clearInterval(window._lv); modal(); $("#np").innerHTML = "";
+            document.body.classList.add("out");
+        }
+        $("#login").addEventListener("keydown", (e) => { if (e.key == "Enter") doLogin(); });
+
+        // ============================== THEME TOGGLE ==============================
+        const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+        const SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+        function setTheme(t) {
+            document.documentElement.dataset.theme = t;
+            try { localStorage.setItem("pcap-theme", t); } catch (e) { }
+            document.querySelectorAll(".tt").forEach((b) => {
+                b.innerHTML = t == "dark" ? SUN : MOON;
+                const l = t == "dark" ? "Switch to light mode" : "Switch to dark mode";
+                b.title = l; b.setAttribute("aria-label", l);
+            });
+        }
+        function togTheme() { setTheme(document.documentElement.dataset.theme == "dark" ? "light" : "dark"); }
+        setTheme(document.documentElement.dataset.theme == "dark" ? "dark" : "light");
+    </script>
+</body>
+
+</html>
